@@ -1,9 +1,27 @@
-<div *ngFor="let node of xml.children">
-  name is:  {{node.nodeName}}
-  <div *ngFor="let inode of node.children">
-    <label for="inode.nodeName">{{inode.nodeName}}</label><input type="text" [value]="inode.getAttribute('value')" (change)="inode.setAttribute('value',$event.target.value)">
+<div class="samuReportConfigurator">
+  <div *ngFor="let node of xml.children">
+    <div class="formRow" *ngFor="let inode of node.children; let i = index">
+      <label for="inode.nodeName">{{inode.nodeName}}</label>
+      <div>
+        <input
+         *ngIf="inode.getAttribute('type') !== 'svg'"
+         spellcheck="false" 
+         [autofocus]="i === 0"
+         [min]="inode.getAttribute('min')"
+         [max]="inode.getAttribute('max')"
+         [type]="inode.getAttribute('type') || 'text'"
+         [value]="inode.getAttribute('value')"
+         (change)="inode.setAttribute('value',$event.target.value)">
+        <input type="file" *ngIf="inode.getAttribute('type') === 'svg'" value="Upload"/>
+        <button *ngIf="inode.getAttribute('type') === 'svg'" (click)="changeImage()">Change</button>
+        <div *ngIf="inode.getAttribute('type') === 'svg'" [innerHTML]="atob(inode.getAttribute('value'))"></div>
+        <!-- <img *ngIf="inode.getAttribute('type') === 'svg'" [src]="_sanitizer.bypassSecurityTrustUrl('data:image/svg+xml;base64,'+inode.getAttribute('value'))" alt="image"/> -->
+      </div>
+    </div>
+    <button (click)="save()">Save</button>
+    <button (click)="updateReport(baseUpdateData)">Change</button>
   </div>
+  <textarea style="display:none;" name="xmlVis" id="xv" cols="30" rows="10">
+    {{baseData}}
+  </textarea>
 </div>
-<textarea name="xmlVis" id="xv" cols="30" rows="10">
-  {{domToXml(xml)}}
-</textarea>

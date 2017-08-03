@@ -1,0 +1,31 @@
+.samuReportConfigurator {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 2em;
+    box-sizing: border-box;
+    button, input {
+        margin: 0.5em;
+        background: none;
+        box-shadow: none;
+        border: 1px solid darkgray;
+        padding: 0.5em;
+        transition: 0.5s;
+    }
+    button {
+        cursor: pointer;
+        &:hover{
+            filter: invert(1);
+            text-shadow: 1px 1px 5px white;
+        }
+    }
+    .formRow {
+        display: flex;
+        justify-content: space-between;
+    }
+    label {
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+}
