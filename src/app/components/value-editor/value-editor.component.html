@@ -1,0 +1,4 @@
+<div class="formRow" *ngFor="let attr of value.attributes">
+  <label for="attr.name">{{attr.name}}</label>
+  <input type="text" [(ngModel)]="attr.value"/>
+</div>

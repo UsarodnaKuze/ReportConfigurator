@@ -4,10 +4,14 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DataService } from 'app/services/data.service';
+import { IsValuePipe } from './pipes/is-value.pipe';
+import { ValueEditorComponent } from './components/value-editor/value-editor.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    IsValuePipe,
+    ValueEditorComponent
   ],
   imports: [
     BrowserModule,

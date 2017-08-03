@@ -12,6 +12,26 @@
         border: 1px solid darkgray;
         padding: 0.5em;
         transition: 0.5s;
+        &[type*="file"] {
+            /* max-width: 50%; */
+        }
+    }
+    li {
+        list-style: none;
+        border: 1px solid darkgray;
+        padding: 0.5em;
+        margin: 0.5em;
+        border-radius: 0.5em;
+    }
+    .svgContainer {
+        height: 3em;
+        width: 3em;
+        vertical-align: middle;
+        float: right;
+        > svg {
+            height: 100%;
+            width: 100%;
+        }
     }
     button {
         cursor: pointer;

@@ -11,6 +11,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 export class AppComponent implements OnInit {
   title = 'app';
+  values = [];
+  selectedValue: Node;
   private baseData: string;
   private baseUpdateData = baseUpdateData;
   private data: string;
@@ -65,8 +67,36 @@ export class AppComponent implements OnInit {
     }
     return text.value;
   }
-  changeImage() {
-
+  changeImage(event, node) {
+    const fr = new FileReader();
+    const file = event.srcElement.files[0];
+    fr.readAsText(file);
+    fr.onloadend = (result) => {
+      node.setAttribute('value', btoa(fr.result));
+    }
+  }
+  moveDown (parentNode: Element, nodeIndex: number) {
+    const node = parentNode.getElementsByTagName('value')[nodeIndex++];
+    if (parentNode.lastElementChild === parentNode.firstElementChild || node === parentNode.lastChild) {
+      return;
+    }
+    const nextNode: Node = parentNode.getElementsByTagName('value')[nodeIndex];
+    node.parentNode.insertBefore(nextNode, node);
+  }
+  addValue(placeHolder: Node) {
+    const value = this.xml.createElement('value');
+    const placeHolderParent = placeHolder.parentNode;
+    for (let i = 0; i < placeHolder.attributes.length; i++) {
+      value.setAttribute(placeHolder.attributes[i].name, '');
+    }
+    placeHolderParent.appendChild(value);
+    this.selectedValue = value;
+    /*TODO fix force reflow in angular*/
+    /* const placeHolderParentParent = placeHolderParent.parentNode;
+    placeHolderParentParent.removeChild(placeHolderParent);
+    setTimeout(function(){
+      placeHolderParentParent.appendChild(placeHolderParent);
+    }, 100); */
   }
   save() {
     const oldXslt = this.xsltTextValue();

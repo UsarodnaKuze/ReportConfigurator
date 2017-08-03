@@ -4,20 +4,31 @@
       <label for="inode.nodeName">{{inode.nodeName}}</label>
       <div>
         <input
-         *ngIf="inode.getAttribute('type') !== 'svg'"
-         spellcheck="false" 
-         [autofocus]="i === 0"
-         [min]="inode.getAttribute('min')"
-         [max]="inode.getAttribute('max')"
-         [type]="inode.getAttribute('type') || 'text'"
-         [value]="inode.getAttribute('value')"
-         (change)="inode.setAttribute('value',$event.target.value)">
-        <input type="file" *ngIf="inode.getAttribute('type') === 'svg'" value="Upload"/>
-        <button *ngIf="inode.getAttribute('type') === 'svg'" (click)="changeImage()">Change</button>
-        <div *ngIf="inode.getAttribute('type') === 'svg'" [innerHTML]="atob(inode.getAttribute('value'))"></div>
+        *ngIf="!inode.getAttribute('type') || inode.getAttribute('type') === 'number' || inode.getAttribute('type') === 'text'"
+        spellcheck="false" 
+        [autofocus]="i === 0"
+        [min]="inode.getAttribute('min')"
+        [max]="inode.getAttribute('max')"
+        [type]="inode.getAttribute('type') || 'text'"
+        [value]="inode.getAttribute('value')"
+        (change)="inode.setAttribute('value',$event.target.value)">
+        <ul *ngIf="inode.getAttribute('type') === 'ObjectList'">
+          <li (dblclick)="moveDown(inode, valueIndex)" (click)="value.getAttribute('fixed') ? '' : selectedValue = value" *ngFor="let value of inode.getElementsByTagName('value'); let valueIndex = index">
+            {{value.attributes[0].value}}
+          </li>
+          <button (click)="addValue(inode.getElementsByTagName('placeholder')[0])">Add</button>
+        </ul>
+        <input 
+        *ngIf="inode.getAttribute('type') === 'svg'" 
+        type="file" 
+        [id]="inode.nodeName" 
+        (change)="changeImage($event,inode)" 
+        value="Upload"/>
+        <div *ngIf="inode.getAttribute('type') === 'svg'" class="svgContainer" [innerHTML]="atob(inode.getAttribute('value'))"></div>
         <!-- <img *ngIf="inode.getAttribute('type') === 'svg'" [src]="_sanitizer.bypassSecurityTrustUrl('data:image/svg+xml;base64,'+inode.getAttribute('value'))" alt="image"/> -->
       </div>
     </div>
+    <app-value-editor *ngIf="selectedValue" [value]="selectedValue"></app-value-editor>
     <button (click)="save()">Save</button>
     <button (click)="updateReport(baseUpdateData)">Change</button>
   </div>
