@@ -77,7 +77,7 @@ export class AppComponent implements OnInit {
   }
   moveDown (parentNode: Element, nodeIndex: number) {
     const node = parentNode.getElementsByTagName('value')[nodeIndex++];
-    if (parentNode.lastElementChild === parentNode.firstElementChild || node === parentNode.lastChild) {
+    if (parentNode.lastElementChild === parentNode.firstElementChild || node === parentNode.lastElementChild) {
       return;
     }
     const nextNode: Node = parentNode.getElementsByTagName('value')[nodeIndex];
